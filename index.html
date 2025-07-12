@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <div class = "alert-box" id ="alert">
+            <p class = 'title1' id="title">알림창임</p> 
+            <botton id = "close">닫기</botton>
+        </div>
+        
+        <button onclick="changeAlertBox('아이디 입력해라')">버튼1</button>
+        <button onclick="changeAlertBox('비밀번호 입력해라')">버튼2</button>
+
+        <script>
+            
+            document.getElementById('close').addEventListener('click',function 생략가능(){
+                // 클릭하면 여기있는 코드를 실행해줌
+                //콜백함수, 순차적으로 실행할 때 가끔 보임
+                document.getElementById('alert').style.display = 'none';
+            })
+            
+            function changeAlertBox(text){
+                // document.getElementById('title').innerHTML = text;
+                document.getElementsByClassName('title1')[0].innerHTML = text;
+                document.getElementById('alert').style.display = 'block';
+            }
+            
+        </script>
+    </body>
+</html>
