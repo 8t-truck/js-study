@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <div class="container">
+        <div class="row">
+            <!-- <div class="col-sm-4">
+                <img src="https://placehold.co/600" class="w-100">
+                <h5>Card title</h5>
+                <p>가격 : 70000</p>
+            </div> -->
+
+        </div>
+    </div>
+
+
+    <script>
+        var products = [
+            { id: 0, price: 70000, title: 'Blossom Dress' },
+            { id: 1, price: 50000, title: 'Springfield Shirt' },
+            { id: 2, price: 60000, title: 'Black Monastery' }
+        ];
+
+        // var array = [7,3,5,2,40];
+        // array.sort();
+        // console.log(array);//문자정렬
+        // array.sort(function(a,b){
+        //     return a-b
+        // });
+        // console.log(array);
+       
+
+        // 함수(가격, 이름)->리턴값을 문자에 입력받은 숫자들 집어 넣어서 뱉으면 되는거 아님?
+        // 그 뱉은 리턴값을 append써서 집어 쳐 넣으면 되는거 아니냐구연;;;
+        function fillInfo(price, title) {
+            return (`<div class="col-sm-4">
+                <img src="https://placehold.co/600" class="w-100">
+                <h5>${title}</h5>
+                <p>가격 : ${price}</p>
+            </div>`);
+        }
+        products.forEach(function (a) {
+            $('.row').append(fillInfo(a.price, a.title));
+        })
+
+
+    </script>
+
+    <div class="container more">
+        <button class="btn btn-danger">더보기</button>
+    </div>
+
+    <div class="container price-array">
+        <button class="btn btn-danger">가격순 정렬</button>
+    </div>
+
+    <script>
+        $('.price-array').on('click',function(){
+            products.sort(function(product1, product2){
+            return product1.price - product2.price;
+        })
+        $('.row').html('');
+        products.forEach(function (a) {
+            $('.row').append(fillInfo(a.price, a.title));
+        })//다시 생성하기
+        })///////////////////////// 정렬했고 다시 생성하면 되는거 아닌교?
+
+        
+
+        function fillInfo(price, title) {
+            return (`<div class="col-sm-4">
+                <img src="https://placehold.co/600" class="w-100">
+                <h5>${title}</h5>
+                <p>가격 : ${price}</p>
+            </div>`);
+        }
+        var count = 0;
+        $('.more').on('click', function () {
+            count++;
+            if (count == 1) {
+                $.get('https://codingapple1.github.io/js/more1.json')
+                    .done(function (products) {   //data=[{},{},{}]
+                        products.forEach(function (a) {
+                            $('.row').append(fillInfo(a.price, a.title));
+                        })
+                    })
+                    .fail(function () {
+                        console.log('씨발');
+                    })
+            }
+            else if(count == 2){
+                $.get('https://codingapple1.github.io/js/more2.json')
+                    .done(function (products) {   //data=[{},{},{}]
+                        products.forEach(function (a) {
+                            $('.row').append(fillInfo(a.price, a.title));
+                        })
+                    })
+                    .fail(function () {
+                        console.log('씨발');
+                    })
+            }
+            else{
+                $('.more').addClass('hide');
+            }
+
+        })
+
+
+    </script>
+
+    <script src="tab.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
