@@ -20,42 +20,48 @@
                 <img src="https://placehold.co/600" class="w-100">
                 <h5>Card title</h5>
                 <p>가격 : 70000</p>
+                <button class="buy">구매</button>
             </div> -->
 
         </div>
     </div>
 
 
-    <script>
+    <script>//첫페이지
         var products = [
             { id: 0, price: 70000, title: 'Blossom Dress' },
             { id: 1, price: 50000, title: 'Springfield Shirt' },
             { id: 2, price: 60000, title: 'Black Monastery' }
         ];
 
-        // var array = [7,3,5,2,40];
-        // array.sort();
-        // console.log(array);//문자정렬
-        // array.sort(function(a,b){
-        //     return a-b
-        // });
-        // console.log(array);
-       
-
-        // 함수(가격, 이름)->리턴값을 문자에 입력받은 숫자들 집어 넣어서 뱉으면 되는거 아님?
-        // 그 뱉은 리턴값을 append써서 집어 쳐 넣으면 되는거 아니냐구연;;;
         function fillInfo(price, title) {
             return (`<div class="col-sm-4">
                 <img src="https://placehold.co/600" class="w-100">
                 <h5>${title}</h5>
                 <p>가격 : ${price}</p>
+                <button class="buy">구매</button>
             </div>`);
         }
         products.forEach(function (a) {
             $('.row').append(fillInfo(a.price, a.title));
         })
 
+        // 구매버튼을 누른다-> 1. 로컬 스토리지가 비어있으면 새로 cart라는 key 값을 생성하고 아이템을 집어넣는다.
+        // 2. 이미 cart가 있으면 기존의 cart에 아이템을 집어넣는다.
 
+        $('.buy').on('click', function () {
+            const itemTitle = $(this).siblings('h5').html();
+
+            if (localStorage.getItem('cart') === null) {//카트라는 아이템이 있는지 확인하는 법은 출력을 해보는 것.
+                const newCart = [itemTitle];  // 배열로 초기화
+                localStorage.setItem('cart', JSON.stringify(newCart));
+            } else {
+                // 기존 cart가 있을 때
+                const existingCart = JSON.parse(localStorage.getItem('cart'));  // 배열로 파싱
+                existingCart.push(itemTitle);  // 새 항목 추가
+                localStorage.setItem('cart', JSON.stringify(existingCart));  // 다시 JSON으로 저장
+            }
+        });
     </script>
 
     <div class="container more">
@@ -67,23 +73,24 @@
     </div>
 
     <script>
-        $('.price-array').on('click',function(){
-            products.sort(function(product1, product2){
-            return product1.price - product2.price;
-        })
-        $('.row').html('');
-        products.forEach(function (a) {
-            $('.row').append(fillInfo(a.price, a.title));
-        })//다시 생성하기
+        $('.price-array').on('click', function () {
+            products.sort(function (product1, product2) {
+                return product1.price - product2.price;
+            })
+            $('.row').html('');
+            products.forEach(function (a) {
+                $('.row').append(fillInfo(a.price, a.title));
+            })//다시 생성하기
         })///////////////////////// 정렬했고 다시 생성하면 되는거 아닌교?
 
-        
+
 
         function fillInfo(price, title) {
             return (`<div class="col-sm-4">
                 <img src="https://placehold.co/600" class="w-100">
                 <h5>${title}</h5>
                 <p>가격 : ${price}</p>
+                <button class="buy">구매</button>
             </div>`);
         }
         var count = 0;
@@ -100,7 +107,7 @@
                         console.log('씨발');
                     })
             }
-            else if(count == 2){
+            else if (count == 2) {
                 $.get('https://codingapple1.github.io/js/more2.json')
                     .done(function (products) {   //data=[{},{},{}]
                         products.forEach(function (a) {
@@ -111,7 +118,7 @@
                         console.log('씨발');
                     })
             }
-            else{
+            else {
                 $('.more').addClass('hide');
             }
 
